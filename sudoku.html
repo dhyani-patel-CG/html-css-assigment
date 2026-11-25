@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku</title>
+
+  <style>
+    /* Page background and font */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, max-content));
+      justify-content: center;
+      align-items: start;
+      gap: 40px 48px;
+      padding: 40px 24px;
+      background: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #111111;
+    }
+
+    /* One board: the title plus the grid */
+    .board h2 {
+      margin: 0 0 14px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    /*
+      A sudoku board is a table of 9 rows and 9 cells.
+      border-collapse joins neighboring borders into one line.
+    */
+    table {
+      border-collapse: collapse;
+      border: 3px solid #111111;
+    }
+
+    td {
+      width: 42px;
+      height: 42px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 22px;
+      border: 1px solid #222222;
+    }
+
+    /* Every 3rd column gets a thick right edge (the 3x3 boxes) */
+    td:nth-child(3n) {
+      border-right: 3px solid #111111;
+    }
+
+    /* Every 3rd row gets a thick bottom edge */
+    tr:nth-child(3n) td {
+      border-bottom: 3px solid #111111;
+    }
+
+    /* The pale green boxes from the picture */
+    td.green {
+      background: #c5dfc4;
+    }
+
+    /* On a phone, shrink the cells so both boards still fit */
+    @media (max-width: 700px) {
+      body {
+        gap: 28px;
+      }
+
+      td {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!--
+    SUDOKU
+    Empty cells are written as &nbsp; so the box stays the same size.
+    class="green" paints the checkerboard of 3x3 boxes:
+    middle box on top, left and right boxes in the middle, middle box on the bottom.
+  -->
+  <section class="board">
+    <h2>SUDOKU</h2>
+    <table>
+      <tr>
+        <td>8</td><td>&nbsp;</td><td>6</td>
+        <td class="green">&nbsp;</td><td class="green">&nbsp;</td><td class="green">3</td>
+        <td>&nbsp;</td><td>9</td><td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td><td>4</td><td>&nbsp;</td>
+        <td class="green">&nbsp;</td><td class="green">1</td><td class="green">&nbsp;</td>
+        <td>&nbsp;</td><td>6</td><td>8</td>
+      </tr>
+      <tr>
+        <td>2</td><td>&nbsp;</td><td>&nbsp;</td>
+        <td class="green">8</td><td class="green">7</td><td class="green">&nbsp;</td>
+        <td>&nbsp;</td><td>&nbsp;</td><td>5</td>
+      </tr>
+      <tr>
+        <td class="green">1</td><td class="green">&nbsp;</td><td class="green">8</td>
+        <td>&nbsp;</td><td>&nbsp;</td><td>5</td>
+        <td class="green">&nbsp;</td><td class="green">2</td><td class="green">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="green">&nbsp;</td><td class="green">3</td><td class="green">&nbsp;</td>
+        <td>1</td><td>&nbsp;</td><td>&nbsp;</td>
+        <td class="green">&nbsp;</td><td class="green">5</td><td class="green">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="green">7</td><td class="green">&nbsp;</td><td class="green">5</td>
+        <td>&nbsp;</td><td>3</td><td>&nbsp;</td>
+        <td class="green">9</td><td class="green">&nbsp;</td><td class="green">&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td><td>2</td><td>1</td>
+        <td class="green">&nbsp;</td><td class="green">&nbsp;</td><td class="green">7</td>
+        <td>&nbsp;</td><td>4</td><td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>6</td><td>&nbsp;</td><td>&nbsp;</td>
+        <td class="green">&nbsp;</td><td class="green">2</td><td class="green">&nbsp;</td>
+        <td>8</td><td>&nbsp;</td><td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td><td>8</td><td>7</td>
+        <td class="green">6</td><td class="green">&nbsp;</td><td class="green">4</td>
+        <td>&nbsp;</td><td>&nbsp;</td><td>3</td>
+      </tr>
+    </table>
+  </section>
+
+  <!-- ANSWER: same green boxes, every cell filled in -->
+  <section class="board">
+    <h2>ANSWER</h2>
+    <table>
+      <tr>
+        <td>8</td><td>7</td><td>6</td>
+        <td class="green">5</td><td class="green">4</td><td class="green">3</td>
+        <td>1</td><td>9</td><td>2</td>
+      </tr>
+      <tr>
+        <td>5</td><td>4</td><td>3</td>
+        <td class="green">2</td><td class="green">1</td><td class="green">9</td>
+        <td>7</td><td>6</td><td>8</td>
+      </tr>
+      <tr>
+        <td>2</td><td>1</td><td>9</td>
+        <td class="green">8</td><td class="green">7</td><td class="green">6</td>
+        <td>4</td><td>3</td><td>5</td>
+      </tr>
+      <tr>
+        <td class="green">1</td><td class="green">9</td><td class="green">8</td>
+        <td>7</td><td>6</td><td>5</td>
+        <td class="green">3</td><td class="green">2</td><td class="green">4</td>
+      </tr>
+      <tr>
+        <td class="green">4</td><td class="green">3</td><td class="green">2</td>
+        <td>1</td><td>9</td><td>8</td>
+        <td class="green">6</td><td class="green">5</td><td class="green">7</td>
+      </tr>
+      <tr>
+        <td class="green">7</td><td class="green">6</td><td class="green">5</td>
+        <td>4</td><td>3</td><td>2</td>
+        <td class="green">9</td><td class="green">8</td><td class="green">1</td>
+      </tr>
+      <tr>
+        <td>3</td><td>2</td><td>1</td>
+        <td class="green">9</td><td class="green">8</td><td class="green">7</td>
+        <td>5</td><td>4</td><td>6</td>
+      </tr>
+      <tr>
+        <td>6</td><td>5</td><td>4</td>
+        <td class="green">3</td><td class="green">2</td><td class="green">1</td>
+        <td>8</td><td>7</td><td>9</td>
+      </tr>
+      <tr>
+        <td>9</td><td>8</td><td>7</td>
+        <td class="green">6</td><td class="green">5</td><td class="green">4</td>
+        <td>2</td><td>1</td><td>3</td>
+      </tr>
+    </table>
+  </section>
+
+</body>
+</html>
